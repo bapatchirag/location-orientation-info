@@ -39,17 +39,17 @@ void reset_vals() {
 void init_gps() {
 	reset_vals();
 	
-	VICVectAddr0 = (unsigned)interrupt_uart1;		// Select priority of interrupt
-	VICVectCntl0 = 0x27;							// Interrupt #7 - UART1, D5: Enable interrupt
-	VICIntEnable = 0x80;							// Select interrupt #7 - UART1
-	VICIntSelect = 0x00;							// Interrupt type - IRQ
+	VICVectAddr0 = (unsigned)interrupt_uart1;						// Select priority of interrupt
+	VICVectCntl0 = 0x27;									// Interrupt #7 - UART1, D5: Enable interrupt
+	VICIntEnable = 0x80;									// Select interrupt #7 - UART1
+	VICIntSelect = 0x00;									// Interrupt type - IRQ
 	
-	PINSEL0 |= 0x50000;								// Select TDX0 and RDX0
-	U1LCR = 0x83;									// DLAB = 1, 1 stop bit, 8 bit character
-	U1DLL = 0x61;									// Calculated from formula - baud rate 9600
-	U1DLM = 0x00;									// Calculated from formula - baud rate 9600
-	U1LCR = 0x03;									// DLAB = 0, 1 stop bit, 8 but character
-	U1IER = 0x01;									// Enable RDA (Read Data Available) interrupts
+	PINSEL0 |= 0x50000;									// Select TDX0 and RDX0
+	U1LCR = 0x83;										// DLAB = 1, 1 stop bit, 8 bit character
+	U1DLL = 0x61;										// Calculated from formula - baud rate 9600
+	U1DLM = 0x00;										// Calculated from formula - baud rate 9600
+	U1LCR = 0x03;										// DLAB = 0, 1 stop bit, 8 but character
+	U1IER = 0x01;										// Enable RDA (Read Data Available) interrupts
 }
 
 /* Checks if string is GGA string upon interrupt
@@ -71,7 +71,7 @@ __irq void interrupt_uart1() {
 		
 		gga_string[gga_index++] = received_char;
 	}
-	else if(gga[0] == 'G' && gga[1] == 'G' && gga[2] == 'A') {							// Check if string is a GGA string
+	else if(gga[0] == 'G' && gga[1] == 'G' && gga[2] == 'A') {				// Check if string is a GGA string
 		is_gga_string = 1;
 		gga[0] = gga[1] = gga[2] = 0;													// Reset "GGA" to "\0\0\0"
 	}
@@ -104,7 +104,7 @@ void get_latitude(int lat_ptr) {
 	
 	lat_degrees = (int)(temp_lat);
 	temp_lat = (temp_lat - lat_degrees) / 0.6;
-	lat_degrees = (double)(lat_degrees + temp_lat);										// Latitude in ddmm.mmmmmm format
+	lat_degrees = (double)(lat_degrees + temp_lat);						// Latitude in ddmm.mmmmmm format
 	
 	sprintf(lat_buff, "%lf", lat_degrees);
 	
@@ -130,7 +130,7 @@ void get_longitude(int long_ptr) {
 	
 	long_degrees = (int)(temp_long);
 	temp_long = (temp_long - long_degrees) / 0.6;
-	long_degrees = (double)(long_degrees + temp_long);									// longitude in ddmm.mmmmmm format
+	long_degrees = (double)(long_degrees + temp_long);					// longitude in ddmm.mmmmmm format
 	
 	sprintf(long_buff, "%lf", long_degrees);
 	
