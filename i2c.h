@@ -27,7 +27,7 @@ void init_i2c() {
  */
 void start_i2c() {
 	I2C0CONSET = 0x20;					// Bit 5: Start I2C
-	while(!(I2C0CONSET & 0x08));		// Wait till start condition transmission is complete
+	while(!(I2C0CONSET & 0x08));				// Wait till start condition transmission is complete
 	I2C0CONCLR = 0x28;					// Clear start and SI bits
 }
 
@@ -46,7 +46,7 @@ void stop_i2c() {
 void write_i2c(char data) {
 	I2C0DAT = data;						
 	I2C0CONSET = 0x40;					// Bit 6: Enable I2C
- 	while(!(I2C0CONSET & 0x08));		// Wait till start condition transmission is complete
+ 	while(!(I2C0CONSET & 0x08));				// Wait till start condition transmission is complete
 	I2C0CONCLR = 0x08;					// Clear SI bit
 }
 
@@ -56,7 +56,7 @@ void write_i2c(char data) {
  */
 char read_ack_i2c() {
 	I2C0CONSET = 0x44;					// Bit 6: Enable I2C, Bit 2: Enable ACK bit
-	while(!(I2C0CONSET & 0x08));		// Wait till start condition transmission is complete
+	while(!(I2C0CONSET & 0x08));				// Wait till start condition transmission is complete
 	I2C0CONCLR = 0x0C;					// Clear ACK and SI bits
 	return I2C0DAT;
 }
@@ -67,7 +67,7 @@ char read_ack_i2c() {
  */
 char read_nack_i2c() {
 	I2C0CONSET = 0x40;					// Bit 6: Enable I2C
-	while(!(I2C0CONSET & 0x08));		// Wait till start condition transmission is complete
+	while(!(I2C0CONSET & 0x08));				// Wait till start condition transmission is complete
 	I2C0CONCLR = 0x08;					// Clear SI bit
 	return I2C0DAT;
 }
